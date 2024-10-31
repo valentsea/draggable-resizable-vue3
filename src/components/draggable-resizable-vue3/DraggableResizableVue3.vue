@@ -57,7 +57,7 @@ import {
   restrictToBounds,
   snapToGrid,
 } from './utils/fns'
-import { ref, computed, onMounted, watch, useSlots, inject } from 'vue'
+import { ref, computed, onMounted, watch, useSlots, inject, onUnmounted } from 'vue'
 
 const events = {
   mouse: {
@@ -1128,6 +1128,13 @@ onMounted(() => {
   addEvent(window, 'resize', checkParentSize)
 })
 
+  
+onUnmounted(() => {
+  removeEvent(document.documentElement, 'mousedown', deselect)
+  removeEvent(document.documentElement, 'touchend touchcancel', deselect)
+  removeEvent(window, 'resize', checkParentSize)
+})
+  
 watch(
   () => props.x,
   (val) => {
